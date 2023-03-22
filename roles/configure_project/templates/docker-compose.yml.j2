@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+  app-database:
+    image: "postgres:9.6-alpine"
+    container_name: salesman-database
+    volumes:
+      - salesman-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=salesman
+      - POSTGRES_USER=salesman
+      - POSTGRES_PASSWORD=salesman
+
+  app-backend:
+    build: ./Backend
+    container_name: salesman-backend
+    environment:
+      - DB_SERVER=app-database
+    ports:
+      - 8080:8080
+    links:
+      - app-database
+
+  app-prediction:
+    build: ./Prediction
+    container_name: salesman-prediction
+    ports:
+      - 8090:8090
+    links:
+      - app-backend
+
+  app-frontend:
+    build: ./Frontend
+    container_name: salesman-frontend
+    volumes:
+      - salesman-webiste:/usr/share/nginx/html
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - app-backend
+
+volumes:
+  salesman-data:
+  salesman-webiste:

@@ -1,0 +1,83 @@
+- name: Add ssh_key to server
+  copy: >
+    src=files/id_rsa.github
+    dest=/root/.ssh/id_rsa.github
+    owner=root
+    group=root
+    mode=0600
+  
+- name: Configure ssh to use ansible key for github.com
+  template: >
+    src=templates/ssh_config.j2
+    dest=/root/.ssh/config
+    owner=root
+    group=root
+    mode=0644
+
+- name: Check if project folder exists
+  stat:
+    path: /opt/salesman
+  register: check_folder
+
+- name: Stop Docker Compose
+  shell:
+    cmd: docker-compose down
+    chdir: /opt/salesman/
+  when: check_folder.stat.exists
+  
+- name: Remove salesman folder 
+  file:
+    state: absent
+    path: /opt/salesman/
+  when: check_folder.stat.exists
+    
+- name: Clone a private repository
+  git: >
+    repo=ssh://git@github.com/Salesman-ai/production-repository.git
+    key_file=/root/.ssh/id_rsa
+    dest=/opt/salesman
+
+- name: Remove .git Folder
+  file:
+    state: absent
+    path: /opt/salesman/.git/
+
+- name: Remove README file
+  file:
+    state: absent
+    path: /opt/salesman/README.md
+
+- name: Add Dockerfiles
+  template:
+    src: "templates/{{ item.template }}"
+    dest: "/opt/salesman/{{ item.path }}/{{ item.name }}"
+  loop:
+  - { template: 'backend_dockerfile.j2', name: 'Dockerfile', path: "Backend" }
+  - { template: 'frontend_dockerfile.j2', name: 'Dockerfile', path: "Frontend" }
+  - { template: 'prediction_dockerfile.j2', name: 'Dockerfile', path: "Prediction" }
+
+- name: Add Frontend default.conf
+  template:
+    src: templates/default.conf.j2
+    dest: /opt/salesman/Frontend/default.conf
+
+- name: Add Docker Compose file
+  template:
+    src: templates/docker-compose.yml.j2
+    dest: /opt/salesman/docker-compose.yml
+
+- name: Remove old images if exists
+  docker_image:
+    state: absent
+    force_absent: true
+    name: "{{ item.name }}"
+    tag: "{{ item.tag }}"
+  loop:
+  - { name: 'salesman-prediction', tag: 'Dockerfile' }
+  - { name: 'salesman-backend', tag: 'Dockerfile' }
+  - { name: 'salesman-frontend', tag: 'Dockerfile' }
+
+- name: Run Docker Compose
+  shell:
+    cmd: docker-compose up -d
+    chdir: /opt/salesman/

@@ -1,0 +1,6 @@
+- hosts: configure_project
+  become: true
+
+
+  roles:
+    - configure_project
