@@ -47,6 +47,11 @@
     state: absent
     path: /opt/salesman/README.md
 
+- name: Add Config.cfg file
+  template:
+    src: "templates/config.cfg.j2"
+    dest: "/opt/salesman/Backend/config.cfg"
+
 - name: Add Dockerfiles
   template:
     src: "templates/{{ item.template }}"
@@ -73,9 +78,10 @@
     name: "{{ item.name }}"
     tag: "{{ item.tag }}"
   loop:
-  - { name: 'salesman-prediction', tag: 'Dockerfile' }
-  - { name: 'salesman-backend', tag: 'Dockerfile' }
-  - { name: 'salesman-frontend', tag: 'Dockerfile' }
+  - { name: 'salesman-app-prediction', tag: 'latest' }
+  - { name: 'salesman-app-backend', tag: 'latest' }
+  - { name: 'salesman-app-frontend', tag: 'latest' }
+
 
 - name: Run Docker Compose
   shell:
