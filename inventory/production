@@ -1,8 +1,10 @@
-[install_docker]
+
+[production:children]
+docker
+salesman
+
+[docker]
 192.168.58.4
 
-[initialize_server]
-192.168.58.4
-
-[configure_project]
+[salesman]
 192.168.58.4

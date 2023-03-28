@@ -1,0 +1,13 @@
+# syntax=docker/dockerfile:1
+
+FROM {{backend_docker_image_name}}:{{backend_docker_image_tag}}
+RUN mkdir -p {{backend_docker_dir}}
+WORKDIR {{backend_docker_dir}}
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY . .
+
+EXPOSE {{backend_docker_port}}
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port={{backend_docker_port}}"]

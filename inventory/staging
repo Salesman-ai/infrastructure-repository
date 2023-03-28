@@ -1,8 +1,0 @@
-[install_docker]
-192.168.58.5
-
-[initialize_server]
-192.168.58.5
-
-[configure_project]
-192.168.58.5

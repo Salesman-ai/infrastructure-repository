@@ -24,7 +24,7 @@
 
 - name: Add Docker Repository
   apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    repo: deb https://download.docker.com/linux/ubuntu {{ubuntu_type}} stable
     state: present
 
 - name: Update apt and install docker-ce
@@ -37,17 +37,17 @@
   pip:
     name: docker
 
-- name: Add remote "vagrant" user to "docker" group
+- name: Add remote {{user_name}} user to "docker" group
   user:
-    name: "vagrant"
-    groups: "docker"
+    name: {{user_name}}
+    groups: docker
     append: yes
   tags:
     - docker
 
 - name: Install docker-compose
   get_url: 
-    url : https://github.com/docker/compose/releases/download/v2.17.0/docker-compose-linux-x86_64
+    url : https://github.com/docker/compose/releases/download/{{docker_compose_version}}/docker-compose-linux-x86_64
     dest: /usr/local/bin/docker-compose
     force: true
     mode: 'u+x,g+x'

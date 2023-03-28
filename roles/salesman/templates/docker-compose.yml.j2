@@ -2,16 +2,16 @@ version: '3'
 services:
 
   app-database:
-    image: "postgres:9.6-alpine"
-    container_name: salesman-database
+    image: "{{database_docker_image_name}}:{{database_docker_image_tag}}"
+    container_name: {{database_server_name}}
     volumes:
       - salesman-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - {{db_port}}:{{db_port}}
     environment:
-      - POSTGRES_DB=salesman
-      - POSTGRES_USER=salesman
-      - POSTGRES_PASSWORD=salesman
+      - POSTGRES_DB={{db_name}}
+      - POSTGRES_USER={{db_user}}
+      - POSTGRES_PASSWORD={{db_pass}}
     networks:
       customnetwork:
         ipv4_address: 172.20.0.13
@@ -19,11 +19,11 @@ services:
 
   app-backend:
     build: ./Backend
-    container_name: salesman-backend
+    container_name: {{backend_server_name}}
     environment:
       - DB_SERVER=app-database
     ports:
-      - 8080:8080
+      - {{backend_docker_port}}:{{backend_docker_port}}
     links:
       - app-database
     networks:
@@ -33,9 +33,9 @@ services:
 
   app-prediction:
     build: ./Prediction
-    container_name: salesman-prediction
+    container_name: {{prediction_server_name}}
     ports:
-      - 8090:8090
+      - {{prediction_docker_port}}:{{prediction_docker_port}}
     links:
       - app-backend
     networks:
@@ -45,10 +45,9 @@ services:
 
   app-frontend:
     build: ./Frontend
-    container_name: salesman-frontend
+    container_name: {{frontend_server_name}}
     ports:
-      - 80:80
-      - 443:443
+      - {{html_port}}:{{html_port}}
     links:
       - app-backend
     networks:

@@ -1,0 +1,41 @@
+
+#BACKEND SECTION
+backend_docker_image_name: python
+backend_docker_image_tag: 3.10-slim-bullseye
+backend_docker_dir: /salesman-backend
+backend_docker_port: 8080
+
+
+#FRONTEND SECTION
+frontend_docker_image_name: nginx
+frontend_docker_image_tag: 1.17.1-alpine
+frontend_docker_dir: /usr/share/nginx/html
+
+#BACKEND SECTION
+prediction_docker_image_name: python
+prediction_docker_image_tag: 3.10-slim-bullseye
+prediction_docker_dir: /salesman-prediction
+prediction_docker_port: 8090
+prediction_url: http://172.20.0.11
+
+#DATABASE SECTION
+database_docker_image_name: postgres
+database_docker_image_tag: 9.6-alpine
+db_name: salesmanai
+db_user: salesman
+db_pass: salesman
+db_host: '172.20.0.13'
+db_port: 5432
+db_table: results
+
+#CONFIG.CONF SECTION
+html_port: 80
+proxy_pass_location: /api/
+proxy_pass_url: http://172.20.0.12/api/
+
+
+#DOCKER SECTION
+database_server_name: salesman-database
+backend_server_name: salesman-backend
+prediction_server_name: salesman-prediction
+frontend_server_name: salesman-frontend

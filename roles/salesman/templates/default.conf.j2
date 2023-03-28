@@ -1,0 +1,14 @@
+server {
+    listen {{html_port}};
+    server_name {{frontend_server_name}};
+    root /usr/share/nginx/html;
+    index index.html index.html;
+
+    location {{proxy_pass_location}} {
+        proxy_pass {{proxy_pass_url}};
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}

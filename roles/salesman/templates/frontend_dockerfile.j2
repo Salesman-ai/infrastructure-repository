@@ -1,0 +1,4 @@
+FROM {{frontend_docker_image_name}}:{{frontend_docker_image_tag}}
+COPY default.conf /etc/nginx/conf.d/default.conf
+WORKDIR {{frontend_docker_dir}}
+COPY . .

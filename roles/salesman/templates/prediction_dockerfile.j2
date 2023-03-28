@@ -1,0 +1,11 @@
+FROM {{prediction_docker_image_name}}:{{prediction_docker_image_tag}}
+RUN mkdir -p {{prediction_docker_dir}}
+WORKDIR {{prediction_docker_dir}}
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY . .
+
+EXPOSE 8090
+
+CMD [ "python3", "main.py"]

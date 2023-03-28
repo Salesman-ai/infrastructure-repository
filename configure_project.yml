@@ -1,6 +1,6 @@
-- hosts: configure_project
+- hosts: salesman
   become: true
 
 
   roles:
-    - configure_project
+    - salesman
