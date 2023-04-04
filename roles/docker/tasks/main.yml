@@ -39,7 +39,7 @@
 
 - name: Add remote {{user_name}} user to "docker" group
   user:
-    name: {{user_name}}
+    name: "{{user_name}}"
     groups: docker
     append: yes
   tags:
