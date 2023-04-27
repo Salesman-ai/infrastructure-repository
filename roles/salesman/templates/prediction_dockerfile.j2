@@ -8,4 +8,4 @@ COPY . .
 
 EXPOSE 8090
 
-CMD [ "python3", "main.py"]
+CMD [ "python3", "-m" , "flask", "run", "-h","localhost",  "-p", "8090"]
