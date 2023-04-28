@@ -30,8 +30,8 @@ db_table: results
 
 #CONFIG.CONF SECTION
 html_port: 80
-proxy_pass_location: /api/
-proxy_pass_url: http://172.20.0.12/api/
+proxy_pass_location: /api-backend/
+proxy_pass_url: http://172.20.0.12/api-backend/
 
 
 #DOCKER SECTION
