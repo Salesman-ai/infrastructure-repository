@@ -1,16 +1,14 @@
 - name: Add Google Chrome key
   shell: wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 
-- name: Add Google Chrome gpg
+- name: Add Google Chrome repository
   shell: add-apt-repository "deb http://dl.google.com/linux/chrome/deb/ stable main"
 
 - name: Update apt cache
   shell: apt update
 
-
 - name: Install Google Chrome
   apt: pkg=google-chrome-stable state=latest
-
 
 - name: Install xvfb package
   apt: name=xvfb state=latest
