@@ -6,5 +6,8 @@ salesman
 [docker]
 192.168.58.4
 
+[chrome]
+192.168.58.4
+
 [salesman]
 192.168.58.4

@@ -1,0 +1,6 @@
+- hosts: chrome
+  become: true
+
+
+  roles:
+    - chrome

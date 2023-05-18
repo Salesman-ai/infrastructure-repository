@@ -17,6 +17,12 @@
     state: latest
     update_cache: true
 
+- name: Update requests lib
+  shell: pip3 install requests==2.29.0
+
+- name: Update urllib3 lib
+  shell: pip3 install urllib3==1.26.15
+
 - name: Add Docker GPG apt Key
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
