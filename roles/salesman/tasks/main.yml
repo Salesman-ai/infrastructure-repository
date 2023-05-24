@@ -101,7 +101,7 @@
 - name: Install requirements for end-to-end tests
   become_user: vagrant
   shell:
-    cmd: pip3 -r install requirements.txt
+    cmd: pip3 install -r requirements.txt
     chdir: /opt/salesman/Tests
 
 - name: Perform end-to-end tests
