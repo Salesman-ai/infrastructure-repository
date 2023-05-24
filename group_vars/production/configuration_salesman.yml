@@ -45,6 +45,7 @@ db_table: results
 html_port: 80
 proxy_pass_location: /api/
 proxy_pass_url: http://172.20.0.12/api/
+website_url: 192.166.217.30
 
 
 # +-------------------------------------------------+
