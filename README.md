@@ -75,5 +75,8 @@ vagrant --version
 ```bash
 vagrant up
 ```
-
+- If you want login to VM, run command:
+```bash
+vagrant ssh
+```
 **IMPORTANT** Vagrant require your SSH key, so remember to create it for `root` user. Here is [tutoria](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
