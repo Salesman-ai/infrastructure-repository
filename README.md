@@ -47,3 +47,33 @@ ansible-playbook -i inventory/production install_docker.yml -u root --diff
 ansible-playbook -i inventory/production configure_project.yml -u root --diff
 ```
 
+### Vagrant
+
+If you don't have a server and would like to run the program locally you can download the Vagrant tool.
+
+- Install Virtualbox
+```bash
+sudo apt update
+sudo apt upgrade
+sudo apt install virtualbox
+```
+
+- Install Vagrant
+```bash
+wget https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
+sudo apt install ./vagrant_2.2.19_x86_64.deb
+```
+
+- Verify Vagrant version
+```
+vagrant --version
+```
+
+- Download `Vagrantfile` from this [repository](https://github.com/Salesman-ai/additional-repository)
+- Copy this file to selected folder
+- In this folder run command:
+```bash
+vagrant up
+```
+
+**IMPORTANT** Vagrant require your SSH key, so remember to create it for `root` user. Here is [tutoria](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
