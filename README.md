@@ -1,30 +1,49 @@
 # Infrastructure repostiory
 
-Wstępne informacje dot. infrastruktury:
+Preliminary information on infrastructure:
 
-- IaC w oparciu o narzędzie Ansible
-- Infrastruktura oparta o zbiór kontenerów
-- Kontenery będą zarządzane za pomocą docker compose
+- IaC based on Ansible tool
+- Infrastructure based on containers
+- Containers will be managed via docker compose
 
 ## Ansible
 
-Rolą ansible w projekcie będzie inicjalizacja serwera o przygotowane playbook'i:
-- ```initialize_server.yml```
+Ansible tool in this project will be responsible for initializing the server using prepared playbooks:
+- ```install_chrome.yml```
 - ```install_docker.yml```
 - ```configure_project.yml```
 
-### initialize_server.yml
-będzie odpowiedzialny za wstępną konfiguracje serwera:
-- instalacja i konfiguracja nginx (load balancer dla kontenerów)
-- ...
+### Install Chrome 
+This playbook will be responsible for installing Chrome and Chromedriver in Virtual Machine. It will be used to test the program after installation.
 
+### Install Docker 
+This playbook will be responsible for installing Docker and Docker Compose in Virtual Machine. Containers will store program modules.
 
-### install_docker.yml
-będzie odpowiedzialny za instalacje dockera na serwerze:
+### Configure Project
+This playbook is responsible for downloading the project from the production repository and installing it on the server.
 
-### configure_project.yml
-będzie odpowiedzialny za konfiguracje projektu na serwerze:
-- utworzenie pliku ```docker_compose```
-- utworzenie plików ```dockerfile```
-- pobranie gotowego projektu z repozytorium 
-- uruchomienie narzędzia do konteneryzacji
+## Installation
+To install the project you need to:
+- In `host_vars` folder add your server. Example: *if your server have address* `192.168.58.4`, *you need to add* `192.168.58.4.yaml` *file*.
+- In `inventory/production` file add your server. Example  *if your server have address* `192.168.58.4`, *you need to configure* `docker`, `chrome` *and* `salesman` *section*:
+```yaml
+[production:children]
+docker
+salesman
+
+[docker]
+192.168.58.4
+
+[chrome]
+192.168.58.4
+
+[salesman]
+192.168.58.4
+```
+- Run playbooks:
+```bash
+ansible-playbook -i inventory/production install_chrome.yml -u root --diff
+ansible-playbook -i inventory/production install_docker.yml -u root --diff
+ansible-playbook -i inventory/production configure_project.yml -u root --diff
+```
+
